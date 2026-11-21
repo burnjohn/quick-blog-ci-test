@@ -1,4 +1,4 @@
-# Copy this file into YOUR fork of burnjohn/quick-blog as .github/workflows/ai-review.yml (on the workshop branch: PRs go analytics -> workshop).
+# Copy this file into YOUR fork of burnjohn/quick-blog as .github/workflows/ai-review.yml (on main; PRs go analytics -> main).
 # It checks out the fork itself (for context) and YOUR reviewer repo, then reviews every pull request in the fork.
 #
 # THE 4 SECURITY RULES (do not remove):
@@ -12,7 +12,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-# Rule 2
+# Rule 2: least privilege.
 permissions:
   contents: read
   pull-requests: write
@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   review:
-    # Rule 3
+    # Rule 3: fork guard. Secrets never meet code from a foreign fork.
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 20
